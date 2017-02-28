@@ -15,8 +15,7 @@ public class LockTest2 {
 		this.times = times;
 	}
 	public int times = 1000000;
-	public static final int threadNum = 2;
-	public static final int lockNum = 2;
+	public static final int lockNum = 5;
 	
 	public LockTest2(){
 		for(int i = 0; i < lockNum; i ++){
@@ -26,7 +25,7 @@ public class LockTest2 {
 
 	public void join(Integer s) {
 		List<String> l;
-		Object lock = locks[s % 2];
+		Object lock = locks[s % lockNum];
 		synchronized (lock) {
 			l = tables.get(s);
 			if (l == null) {
@@ -40,7 +39,6 @@ public class LockTest2 {
 				//System.out.println("add " + s + " " + i);
 				l.add(new String(i + ""));
 			}
-		    tables.put(s, l);
 			System.out.println(s + " length " + l.size());
 		}
 	}

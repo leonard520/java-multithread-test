@@ -31,7 +31,6 @@ public class SyncTest {
 	    	//System.out.println("add " + s + " " + i);
 	    	l.add(new String(i + ""));
 	    }
-	    tables.put(s, l);
 		System.out.println(s + " length " + l.size());
 	}
 	

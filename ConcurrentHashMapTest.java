@@ -16,7 +16,7 @@ public class ConcurrentHashMapTest {
 		this.times = times;
 	}
 
-	public int times = 100000;
+	public int times = 1000000;
 
 	public void join(Integer s) {
 		while (true) {
@@ -24,20 +24,20 @@ public class ConcurrentHashMapTest {
 			if (l == null) {
 				System.out.println(s + " is null");
 				l = new LinkedList<String>();
-				if (tables.putIfAbsent(s, l) == null) {
-					break;
+				List<String> l2 = tables.putIfAbsent(s, l);
+				if(l2 != null){
+					continue;
 				}
 			} else {
 				System.out.println(s + " is not null");
 			}
-			for (int i = 0; i < times; i++) {
-				// System.out.println("add " + s + " " + i);
-				l.add(new String(i + ""));
+			synchronized (l) {
+				for (int i = 0; i < times; i++) {
+					// System.out.println("add " + s + " " + i);
+					l.add(new String(i + ""));
+				}
+				System.out.println(s + " length " + l.size());
 			}
-			if (tables.putIfAbsent(s, l) == null) {
-				break;
-			}
-			System.out.println(s + " length " + l.size());
 			return;
 
 		}
